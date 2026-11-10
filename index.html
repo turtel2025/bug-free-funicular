@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sentinel Response | Emergency Coordination</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand"><span class="brand-mark">✦</span><span>sentinel<span class="brand-dot">.</span></span></div>
+        <p class="workspace-label">COMMAND CENTER</p>
+        <nav>
+          <button class="nav-item active" data-view="overview"><span>◈</span> Overview</button>
+          <button class="nav-item" data-view="incidents"><span>⌁</span> Incidents <b id="nav-count">0</b></button>
+          <button class="nav-item" data-view="teams"><span>♙</span> Response teams</button>
+          <button class="nav-item" data-view="map"><span>⌖</span> Live map</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="status-card"><span class="pulse"></span><div><strong>All systems operational</strong><small>Last synced just now</small></div></div>
+          <div class="profile"><div class="avatar">AR</div><div><strong>Alex Rivera</strong><small>Incident commander</small></div><span>⋮</span></div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar"><div><p class="eyebrow">MONDAY, 12 AUGUST 2026</p><h1 id="page-title">Good morning, Alex <span>✦</span></h1></div><div class="top-actions"><button class="icon-button">⌕</button><button class="icon-button notification">♢<i></i></button><button class="primary-button" id="new-incident-button">+ New incident</button></div></header>
+
+        <section id="overview-view" class="view">
+          <div class="hero-row"><div><h2>Situation overview</h2><p class="muted">Real-time visibility across your emergency response network.</p></div><div class="last-updated">● Live data <span>Updated 2 min ago</span></div></div>
+          <div class="metric-grid">
+            <article class="metric-card"><div class="metric-icon red">⌁</div><p>Active incidents</p><strong id="metric-active">0</strong><span class="trend up">↗ 12.5% <em>vs last week</em></span></article>
+            <article class="metric-card"><div class="metric-icon orange">!</div><p>Critical priority</p><strong id="metric-critical">0</strong><span class="trend down">↘ 4.2% <em>vs last week</em></span></article>
+            <article class="metric-card"><div class="metric-icon blue">♙</div><p>Available teams</p><strong id="metric-teams">0</strong><span class="trend neutral">— No change <em>vs last week</em></span></article>
+            <article class="metric-card"><div class="metric-icon green">◷</div><p>Avg. response time</p><strong>08:42 <small>min</small></strong><span class="trend up">↗ 8.1% <em>faster this week</em></span></article>
+          </div>
+          <div class="content-grid">
+            <article class="panel incident-panel"><div class="panel-heading"><div><h3>Priority incidents</h3><p class="muted">Sorted by urgency and impact</p></div><button class="text-button" data-view-target="incidents">View all <span>→</span></button></div><div id="priority-list"></div></article>
+            <article class="panel chart-panel"><div class="panel-heading"><div><h3>Incident activity</h3><p class="muted">Reports received over the last 7 days</p></div><select id="chart-filter"><option>This week</option><option>Last week</option></select></div><div class="chart"><div class="chart-y"><span>30</span><span>20</span><span>10</span><span>0</span></div><div class="bars" id="chart-bars"></div></div><div class="chart-legend"><span><i class="legend-dot red-dot"></i> Incidents reported</span><span><i class="legend-dot blue-dot"></i> Incidents resolved</span></div></article>
+          </div>
+          <div class="lower-grid"><article class="panel"><div class="panel-heading"><div><h3>Response team readiness</h3><p class="muted">Current availability by unit</p></div><button class="text-button" data-view-target="teams">Manage teams <span>→</span></button></div><div id="team-readiness"></div></article><article class="panel"><div class="panel-heading"><div><h3>Incidents by category</h3><p class="muted">Distribution this month</p></div></div><div class="donut-wrap"><div class="donut"><b id="total-incidents">0</b><span>Total</span></div><div class="category-legend" id="category-legend"></div></div></article></div>
+        </section>
+
+        <section id="incidents-view" class="view hidden"><div class="section-heading"><div><h2>Incident management</h2><p class="muted">Track, prioritize, and coordinate every active report.</p></div><button class="primary-button" id="new-incident-button-2">+ New incident</button></div><div class="toolbar"><div class="search"><span>⌕</span><input id="incident-search" placeholder="Search incidents..." /></div><div class="filter-group"><select id="severity-filter"><option value="all">All severity</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select><select id="status-filter"><option value="all">All status</option><option>Reported</option><option>Assigned</option><option>In Progress</option><option>Resolved</option></select></div></div><div class="panel table-panel"><table><thead><tr><th>Incident</th><th>Category</th><th>Priority</th><th>Reported</th><th>Assigned team</th><th>Status</th><th></th></tr></thead><tbody id="incident-table"></tbody></table></div></section>
+
+        <section id="teams-view" class="view hidden"><div class="section-heading"><div><h2>Response teams</h2><p class="muted">Coordinate field units and monitor their availability.</p></div><button class="secondary-button">+ Add team</button></div><div class="team-cards" id="team-cards"></div></section>
+
+        <section id="map-view" class="view hidden"><div class="section-heading"><div><h2>Live response map</h2><p class="muted">Location-based assignment and route visibility.</p></div><div class="map-key"><span><i class="map-dot red-map"></i> Incident</span><span><i class="map-dot blue-map"></i> Available team</span></div></div><div class="map-panel"><div class="map-canvas" id="map-canvas"><div class="map-road road-a"></div><div class="map-road road-b"></div><div class="map-road road-c"></div><div class="map-road road-d"></div><div class="map-label label-a">NORTH DISTRICT</div><div class="map-label label-b">RIVERSIDE</div><div class="map-label label-c">CENTRAL</div></div><aside class="map-sidebar"><h3>Selected incident</h3><div id="map-detail"><p class="empty-state">Select an incident marker to see assignment details.</p></div></aside></div></section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop hidden" id="incident-modal"><div class="modal"><div class="modal-head"><div><p class="eyebrow">NEW REPORT</p><h2>Log an incident</h2></div><button class="close-button" id="close-modal">×</button></div><form id="incident-form"><label>Incident title<input name="title" required placeholder="e.g. Multi-vehicle collision" /></label><div class="form-row"><label>Category<select name="category"><option>Road Accident</option><option>Fire Emergency</option><option>Medical Emergency</option><option>Flood</option><option>Building Collapse</option><option>Other Emergency</option></select></label><label>Severity<select name="severity"><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select></label></div><label>Location<input name="location" required placeholder="Address or landmark" /></label><div class="form-row"><label>People affected<input name="affected" type="number" min="0" value="1" /></label><label>Contact number<input name="contact" placeholder="+1 555 000 0000" /></label></div><label>Description<textarea name="description" rows="3" required placeholder="Describe what is happening..."></textarea><div class="modal-actions"><button type="button" class="secondary-button" id="cancel-modal">Cancel</button><button class="primary-button" type="submit">Create incident</button></div></form></div></div>
+    <script src="app.js"></script>
+  </body>
+</html>
